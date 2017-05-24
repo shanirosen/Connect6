@@ -17,14 +17,13 @@ namespace Connect6
                 {
                     return false;
                 }
-
             }
             return true;
         }
 
         private Player GetPlayer(BoardPosition pos)
         {
-            if(IsValid(pos))
+            if (IsValid(pos))
                 return board[pos.Row, pos.Column];
             return Player.Empty;
         }
@@ -55,12 +54,12 @@ namespace Connect6
 
         private bool SixInDiagonal(BoardPosition pos)
         {
-            
+
         }
 
         private bool SixInAColumn(BoardPosition pos)
         {
-            
+
         }
 
         private bool SixInARow(BoardPosition pos)

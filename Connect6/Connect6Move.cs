@@ -7,7 +7,7 @@ namespace Connect6
 {
     class Connect6Move
     {
-
-
+      
     }
+
 }

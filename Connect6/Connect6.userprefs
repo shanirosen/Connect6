@@ -1,0 +1,16 @@
+﻿<Properties StartupConfiguration="{73F4D394-6E1D-4BA1-9F4F-4981F9D2119F}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
+    <Files>
+      <File FileName="BoardPosition.cs" Line="1" Column="1" />
+      <File FileName="Connect6Move.cs" Line="1" Column="1" />
+      <File FileName="Connect6State.cs" Line="1" Column="1" />
+      <File FileName="Program.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>

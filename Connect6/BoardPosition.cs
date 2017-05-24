@@ -17,12 +17,21 @@ namespace Connect6
             this.Column = column;
         }
 
-        public BoardPosition Right 
+        public BoardPosition Right
         {
             get
             {
                 return new BoardPosition(Row + 1, Column);
             }
+        }
+
+        public BoardPosition Down
+        {
+            get
+            {
+                return new BoardPosition(Row, Column+1);
+            }
+
         }
     }
 }

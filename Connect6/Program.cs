@@ -9,7 +9,7 @@ namespace Connect6
     {
         static void Main(string[] args)
         {
-            
+
         }
 
         public static double BestMove(Connect6State state)

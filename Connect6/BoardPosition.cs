@@ -29,7 +29,16 @@ namespace Connect6
         {
             get
             {
-                return new BoardPosition(Row, Column+1);
+                return new BoardPosition(Row, Column + 1);
+            }
+
+        }
+
+        public BoardPosition Diagonal
+        {
+            get
+            {
+                return new BoardPosition(Row + 1, Column + 1);
             }
 
         }

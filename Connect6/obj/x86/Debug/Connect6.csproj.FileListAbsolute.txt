@@ -1,3 +1,7 @@
 C:/Users/Yofi/Desktop/Connect6-20170524T090643Z-001/Connect6/Connect6/obj/x86/Debug/Connect6.csprojResolveAssemblyReference.cache
 /Users/shanirosen/GitHub/Connect6/Connect6/obj/x86/Debug/Connect6.csprojResolveAssemblyReference.cache
 /Users/shanirosen/GitHub/Connect6/Connect6/obj/x86/Debug/Connect6.csproj.CoreCompileInputs.cache
+/Users/shanirosen/GitHub/Connect6/Connect6/bin/Debug/Connect6.exe
+/Users/shanirosen/GitHub/Connect6/Connect6/bin/Debug/Connect6.pdb
+/Users/shanirosen/GitHub/Connect6/Connect6/obj/x86/Debug/Connect6.exe
+/Users/shanirosen/GitHub/Connect6/Connect6/obj/x86/Debug/Connect6.pdb

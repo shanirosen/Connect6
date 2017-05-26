@@ -42,5 +42,18 @@ namespace Connect6
             }
 
         }
+
+        public BoardPosition Opposite
+        {
+            get
+            {
+                return new BoardPosition(Column, Row);
+            }
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[BoardPosition: Row={0}, Col={1}", Row, Column);
+        }
     }
 }

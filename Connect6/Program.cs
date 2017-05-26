@@ -11,9 +11,7 @@ namespace Connect6
         {
             Connect6State state = new Connect6State();
             List<Connect6Move> l = state.AllPossibleMoves();
-            List<BoardPosition> p = state.GetNonOccupiedPositions();
-
-
+       
             foreach (Connect6Move i in l)
             {
                 Console.WriteLine("[" + i.GetPos1().Row + "," + i.GetPos1().Column + "] [" + i.GetPos2().Row + "," + i.GetPos2().Column + "]" + state.GetPlayer(i.GetPos1()) +" " +state.GetPlayer(i.GetPos2()).ToString());

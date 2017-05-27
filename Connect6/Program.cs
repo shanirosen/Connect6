@@ -14,7 +14,7 @@ namespace Connect6
        
             foreach (Connect6Move i in l)
             {
-                Console.WriteLine("[" + i.Pos1.Row + "," + i.Pos1.Column + "] [" + i.Pos2.Row + "," + i.Pos2.Column + "]");
+                Console.WriteLine(i);
             }
 
             //BoardPosition pos1 = new BoardPosition(1, 0);

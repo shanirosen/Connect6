@@ -53,7 +53,7 @@ namespace Connect6
 
         public override string ToString()
         {
-            return string.Format("[BoardPosition: Row={0}, Col={1}", Row, Column);
+            return string.Format("[{0},{1}]", Row, Column);
         }
     }
 }

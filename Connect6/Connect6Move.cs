@@ -7,8 +7,8 @@ namespace Connect6
 {
     class Connect6Move
     {
-        private BoardPosition Pos1;
-        private BoardPosition Pos2;
+        public readonly BoardPosition Pos1;
+        public readonly BoardPosition Pos2;
 
         public Connect6Move(BoardPosition pos1, BoardPosition pos2)
         {
@@ -16,17 +16,24 @@ namespace Connect6
             this.Pos2 = pos2;
         }
 
-        public BoardPosition GetPos1()
+       
+        public Connect6Move OppositeMove
         {
-            return Pos1;
+            get
+            {
+                return new Connect6Move(Pos2, Pos1);
+            }
         }
-        public BoardPosition GetPos2()
+
+        public bool IsEqual(Connect6Move m2)
         {
-            return Pos2;
+			return Pos1.Row == m2.Pos1.Row && Pos1.Column == m2.Pos1.Column && Pos2.Row == m2.Pos2.Row && Pos2.Column == m2.Pos2.Column;
         }
+
+
         public override string ToString()
         {
-            return string.Format("[Connect6Move] Pos1={0}, Pos2={1}", Pos1.ToString(), Pos2.ToString());
+            return string.Format("[Connect6Move] {0}, {1}", Pos1, Pos2);
         }
 
 

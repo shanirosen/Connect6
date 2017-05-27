@@ -7,7 +7,7 @@ namespace Connect6
 {
     class Connect6State
     {
-        private Player[,] board = new Player[,] { { Player.Black, Player.Empty, Player.Empty }, { Player.Empty, Player.Empty, Player.White }, { Player.Empty, Player.White, Player.Empty } };
+        private Player[,] board = new Player[,] { { Player.Black, Player.Empty, Player.Black }, { Player.White, Player.Empty, Player.White }, { Player.Empty, Player.White, Player.Empty } };
 
         public bool IsTied()
         {
@@ -53,7 +53,6 @@ namespace Connect6
             }
 
             return false;
-
         }
 
         private bool SixInDiagonal(BoardPosition pos)
@@ -119,25 +118,25 @@ namespace Connect6
             return positions;
         }
 
-       ///////////Need to check
+        ///////////Need to check
 
         public Connect6State Apply(Connect6Move move)
         {
-            Player[,] newboard = CloneBoard(board);
-            newboard[move.GetPos1().Row, move.GetPos1().Column] = GetPlayer(move.GetPos1());
-            newboard[move.GetPos2().Row, move.GetPos2().Column] = GetPlayer(move.GetPos2());
+            Player newplayer = 1 - GetPlayer(move.Pos1);
             Connect6State state = new Connect6State();
-            state.board = newboard;
+            state.board[move.Pos1.Row, move.Pos1.Column] = newplayer;
+            state.board[move.Pos2.Row, move.Pos2.Column] = newplayer;
+
             return state;
 
         }
 
         ///---------
 
-        private Player[,] CloneBoard(Player[,] board)
+        /*private Player[,] CloneBoard(Player[,] board)
         {
             Player[,] newboard = new Player[board.GetLength(0), board.GetLength(1)];
-            for (int i = 0; i < newboard.GetLength(0; i++)
+            for (int i = 0; i < newboard.GetLength(0); i++)
             {
                 for (int j = 0; j < newboard.GetLength(1); j++)
                 {
@@ -145,98 +144,35 @@ namespace Connect6
                 }
             }
             return newboard;
-        }
+        }*/
 
         public List<Connect6Move> AllPossibleMoves()
         {
-            var allMoves = PossibleMovesRow().Concat(PossibleMovesColumn()).Concat(PossibleMovesDiagonal()).ToList();
-
-            return allMoves;
-        }
-
-
-        public List<Connect6Move> PossibleMovesRow()
-        {
-            List<BoardPosition> rowPositions = GetNonOccupiedPositions();
-            List<Connect6Move> rowMoves = new List<Connect6Move>();
-            foreach (BoardPosition pos1 in rowPositions)
+            List<BoardPosition> AllPositions = GetNonOccupiedPositions();
+            List<Connect6Move> AllMoves = new List<Connect6Move>();
+            foreach (BoardPosition pos1 in AllPositions)
             {
-                foreach (BoardPosition pos2 in rowPositions)
+                foreach (BoardPosition pos2 in AllPositions)
                 {
-                    if (pos1 != pos2 && pos1.Row == pos2.Row)
+                    Connect6Move move = new Connect6Move(pos1, pos2);
+
+                    if (pos1 != pos2 && !IsOppositeMoveInList(AllMoves, move))
                     {
-                        Connect6Move move = new Connect6Move(pos1, pos2);
-
-                        if (!IsOppositeMoveInList(rowMoves, move))
-                        {
-                            rowMoves.Add(move);
-                        }
-
+                        AllMoves.Add(move);
                     }
+
                 }
             }
 
-            return rowMoves;
+            return AllMoves;
         }
 
-
-        public List<Connect6Move> PossibleMovesColumn()
-        {
-            List<BoardPosition> colPositions = GetNonOccupiedPositions();
-            List<Connect6Move> colMoves = new List<Connect6Move>();
-            foreach (BoardPosition pos1 in colPositions)
-            {
-                foreach (BoardPosition pos2 in colPositions)
-                {
-                    if (pos1 != pos2 && pos1.Column == pos2.Column)
-                    {
-                        Connect6Move move = new Connect6Move(pos1, pos2);
-                        if (!IsOppositeMoveInList(colMoves, move))
-                        {
-                            colMoves.Add(move);
-                        }
-
-                    }
-                }
-            }
-
-            return colMoves;
-        }
-
-
-        public List<Connect6Move> PossibleMovesDiagonal()
-        {
-            List<BoardPosition> diagPositions = GetNonOccupiedPositions();
-            List<Connect6Move> diagMoves = new List<Connect6Move>();
-            foreach (BoardPosition pos1 in diagPositions)
-            {
-                foreach (BoardPosition pos2 in diagPositions)
-                {
-                    if (pos1 != pos2 && pos1.Column == pos2.Column + 1 && pos1.Row == pos2.Row + 1)
-                    {
-                        Connect6Move move = new Connect6Move(pos1, pos2);
-                        if (!IsOppositeMoveInList(diagMoves, move))
-                        {
-                            diagMoves.Add(move);
-                        }
-
-                    }
-                }
-            }
-
-            return diagMoves;
-        }
-
-        private Connect6Move OppositeMove(Connect6Move m)
-        {
-            return new Connect6Move(m.GetPos2(), m.GetPos1());
-        }
 
         public bool IsOppositeMoveInList(List<Connect6Move> l, Connect6Move m)
         {
             foreach (Connect6Move move in l)
             {
-                if (AreMovesEqual(move, OppositeMove(m)))
+                if (move.IsEqual(m.OppositeMove))
                 {
                     return true;
                 }
@@ -245,10 +181,6 @@ namespace Connect6
             return false;
         }
 
-        private bool AreMovesEqual(Connect6Move m1, Connect6Move m2)
-        {
-            return m1.GetPos1().Row == m2.GetPos1().Row && m1.GetPos1().Column == m2.GetPos1().Column && m1.GetPos2().Row == m2.GetPos2().Row && m1.GetPos2().Column == m2.GetPos2().Column;
-        }
     }
 
     enum Player

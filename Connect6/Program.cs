@@ -14,13 +14,11 @@ namespace Connect6
        
             foreach (Connect6Move i in l)
             {
-                Console.WriteLine("[" + i.GetPos1().Row + "," + i.GetPos1().Column + "] [" + i.GetPos2().Row + "," + i.GetPos2().Column + "]" + state.GetPlayer(i.GetPos1()) +" " +state.GetPlayer(i.GetPos2()).ToString());
+                Console.WriteLine("[" + i.Pos1.Row + "," + i.Pos1.Column + "] [" + i.Pos2.Row + "," + i.Pos2.Column + "]");
             }
 
             //BoardPosition pos1 = new BoardPosition(1, 0);
             //BoardPosition pos2 = new BoardPosition(1, 1);
-
-
             //Connect6Move m1 = new Connect6Move(pos1, pos2);
             //List<Connect6Move> ll = new List<Connect6Move>();
             //ll.Add((m1));
@@ -46,7 +44,6 @@ namespace Connect6
                 {
                     bestscore = score;
                 }
-
             }
             return bestscore;
         }

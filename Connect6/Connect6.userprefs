@@ -1,11 +1,11 @@
 ﻿<Properties StartupConfiguration="{73F4D394-6E1D-4BA1-9F4F-4981F9D2119F}|Default">
   <MonoDevelop.Ide.ItemProperties.Connect6 PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Connect6State.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Connect6Move.cs">
     <Files>
-      <File FileName="BoardPosition.cs" Line="56" Column="67" />
-      <File FileName="Connect6Move.cs" Line="17" Column="10" />
-      <File FileName="Connect6State.cs" Line="252" Column="6" />
-      <File FileName="Program.cs" Line="14" Column="8" />
+      <File FileName="BoardPosition.cs" Line="56" Column="44" />
+      <File FileName="Connect6Move.cs" Line="36" Column="55" />
+      <File FileName="Connect6State.cs" Line="182" Column="10" />
+      <File FileName="Program.cs" Line="34" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />

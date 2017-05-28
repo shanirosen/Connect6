@@ -68,6 +68,7 @@ namespace Connect6
             return true;
         }
 
+
         private bool SixInAColumn(BoardPosition pos)
         {
             for (int i = 0; i < 5; i++)

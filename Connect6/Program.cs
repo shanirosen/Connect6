@@ -9,9 +9,9 @@ namespace Connect6
     {
         static void Main(string[] args)
         {
-            Connect6State state = new Connect6State();
+            Connect6State state = new Connect6State(Player.White);
             List<Connect6Move> l = state.AllPossibleMoves();
-       
+
             foreach (Connect6Move i in l)
             {
                 Console.WriteLine(i);
@@ -48,7 +48,54 @@ namespace Connect6
             return bestscore;
         }
 
+        public static double BestMoveDepth(Connect6State state, int depth)
+        {
+            if (state.IsFinal())
+            {
+                return state.IsTied() ? 0 : double.NegativeInfinity;
+            }
+            if (depth == 0)
+            {
+                return Evaluation(state);
+            }
 
+            double bestscore = double.NegativeInfinity;
 
+            foreach (Connect6Move move in state.AllPossibleMoves())
+            {
+                double score = -BestMoveDepth(state.Apply(move), depth - 1);
+                if (score > bestscore)
+                {
+                    bestscore = score;
+                }
+            }
+            return bestscore;
+        }
+
+        private static double Evaluation(Connect6State state)
+        {
+            return Count(state, state.currentPlayer) > Count(state, state.currentPlayer - 1) ? double.PositiveInfinity : double.NegativeInfinity;
+        }
+
+        private static int Count(Connect6State state, Player currentPlayer)
+        {
+            int count = 0;
+            List<BoardPosition> occupiedPos = state.GetOccupiedPositions();
+            foreach (BoardPosition pos in occupiedPos)
+            {
+                if (state.GetPlayer(pos) == currentPlayer)
+                {
+                    count++;
+                }
+
+            }
+            return count;
+        }
     }
+
+
+
+
+
+}
 }

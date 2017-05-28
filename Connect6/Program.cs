@@ -74,10 +74,10 @@ namespace Connect6
 
         private static double Evaluation(Connect6State state)
         {
-            return Count(state, state.currentPlayer) > Count(state, state.currentPlayer - 1) ? double.PositiveInfinity : double.NegativeInfinity;
+            return 0;
         }
 
-        private static int Count(Connect6State state, Player currentPlayer)
+        /*private static int Count(Connect6State state, Player currentPlayer)
         {
             int count = 0;
             List<BoardPosition> occupiedPos = state.GetOccupiedPositions();
@@ -90,7 +90,7 @@ namespace Connect6
 
             }
             return count;
-        }
+        }*/
     }
 
 

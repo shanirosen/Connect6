@@ -48,7 +48,7 @@ namespace Connect6
             return bestscore;
         }
 
-        public static double BestMoveDepth(Connect6State state, int depth)
+        public static double BestMoveDepthLimited(Connect6State state, int depth)
         {
             if (state.IsFinal())
             {
@@ -63,7 +63,7 @@ namespace Connect6
 
             foreach (Connect6Move move in state.AllPossibleMoves())
             {
-                double score = -BestMoveDepth(state.Apply(move), depth - 1);
+                double score = -BestMoveDepthLimited(state.Apply(move), depth - 1);
                 if (score > bestscore)
                 {
                     bestscore = score;

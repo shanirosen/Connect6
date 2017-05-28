@@ -8,6 +8,12 @@ namespace Connect6
     class Connect6State
     {
         private Player[,] board = new Player[,] { { Player.Black, Player.Empty, Player.Black }, { Player.White, Player.Empty, Player.White }, { Player.Empty, Player.White, Player.Empty } };
+        public readonly Player currentPlayer;
+
+        public Connect6State (Player CurrentPlayer)
+        {
+            currentPlayer = CurrentPlayer;
+        }
 
         public bool IsTied()
         {
@@ -123,12 +129,11 @@ namespace Connect6
 
         public Connect6State Apply(Connect6Move move)
         {
-            Player newplayer = 1 - GetPlayer(move.Pos1);
-            Connect6State state = new Connect6State();
-            state.board[move.Pos1.Row, move.Pos1.Column] = newplayer;
-            state.board[move.Pos2.Row, move.Pos2.Column] = newplayer;
-
-            return state;
+            Player newplayer = 1 - currentPlayer;
+            board[move.Pos1.Row, move.Pos1.Column] = newplayer;
+            board[move.Pos2.Row, move.Pos2.Column] = newplayer;
+            Connect6State newstate = new Connect6State(newplayer);
+            return newstate;
 
         }
 

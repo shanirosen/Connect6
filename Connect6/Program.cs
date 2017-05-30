@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +13,7 @@ namespace Connect6
                 { Player.Black, Player.White, Player.Black, Player.White, Player.Black, Player.Black  },
                 { Player.Black, Player.White, Player.Black, Player.White, Player.Black, Player.Black  },
                 { Player.Black, Player.Black, Player.Empty, Player.White, Player.Black, Player.Black  },
-                { Player.Black, Player.White, Player.Black, Player.Black, Player.Black, Player.Black  },
+                { Player.Black, Player.White, Player.Black, Player.Black, Player.Black, Player.White  },
                 { Player.Black, Player.White, Player.Empty, Player.White, Player.White, Player.Empty  },
                 { Player.White, Player.White, Player.White, Player.White, Player.White, Player.Black  }
             };

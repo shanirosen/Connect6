@@ -50,9 +50,7 @@ namespace Connect6
 
         public bool IsFinal()
         {
-
-            //return IsSix();
-            return IsFull();
+            return IsFull() || IsSix();
 
         }
 

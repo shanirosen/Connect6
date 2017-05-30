@@ -16,18 +16,22 @@ namespace Connect6
             this.Pos2 = pos2;
         }
 
-       
-        public Connect6Move OppositeMove
-        {
-            get
-            {
-                return new Connect6Move(Pos2, Pos1);
-            }
-        }
+        /// <summary>
+        /// current  (0,1) (1,2) 
+        ///  m2 (1,2) (0,1)
+        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="T:Connect6.Connect6Move"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="object"/> is equal to the current
+        /// <see cref="T:Connect6.Connect6Move"/>; otherwise, <c>false</c>.</returns>
 
-        public bool IsEqual(Connect6Move m2)
+        public override bool Equals(object obj)
         {
-			return Pos1.Row == m2.Pos1.Row && Pos1.Column == m2.Pos1.Column && Pos2.Row == m2.Pos2.Row && Pos2.Column == m2.Pos2.Column;
+            if (obj is Connect6Move)
+            {
+                Connect6Move m2 = obj as Connect6Move;
+                return Pos1 == m2.Pos1 && Pos2 == m2.Pos2 || Pos1 == m2.Pos2 && Pos2 == m2.Pos1;
+            }
+            else
+                return false;
         }
 
 

@@ -51,6 +51,17 @@ namespace Connect6
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if(obj is BoardPosition)
+            {
+                BoardPosition pos2 = obj as BoardPosition;
+
+                return this.Row == pos2.Row && this.Column == pos2.Column;
+            }
+            return false;
+        }
+
         public override string ToString()
         {
             return string.Format("[{0},{1}]", Row, Column);

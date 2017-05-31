@@ -45,7 +45,11 @@ namespace Connect6
 
         private bool IsValid(BoardPosition pos)
         {
-            return pos.Row < board.GetLength(0) && pos.Row >= 0 && pos.Column < board.GetLength(1) && pos.Column >= 0;
+            if (pos != null)
+            {
+                return pos.Row < board.GetLength(0) && pos.Row >= 0 && pos.Column < board.GetLength(1) && pos.Column >= 0;
+            }
+            return false;
         }
 
         public bool IsFinal()
@@ -111,110 +115,105 @@ namespace Connect6
         }
 
         //NEED TO MAKE SURE THE SEQUECE IS OPEN!!!!
+        //2^l-2*k
+        //l - length of sequence
+        //k- number of players on endes
 
-
-        private int SequenceInAColumn(BoardPosition pos)
+        public double SequenceInAColumnScore(BoardPosition pos)
         {
-            int count = 0;
+            int sequencelength = 0;
+            BoardPosition last = new BoardPosition(pos.Row, pos.Column);
             if (GetPlayer(pos) == Player.Empty)
             {
-                pos = pos.Down;
-                while (IsValid(pos))
+                for (BoardPosition current = pos.Down;
+                     IsValid(current) && GetPlayer(current) == currentPlayer;
+                     current = current.Down)
                 {
-                    if (GetPlayer(pos) == currentPlayer && currentPlayer == GetPlayer(pos.Down))
-                    {
-                        count++;
-                    }
-                    pos = pos.Down;
+                    sequencelength++;
+                    last = current;
                 }
+
             }
-            return count;
+            if (sequencelength == 0 || sequencelength == 1)
+            {
+                return -1;
+            }
+            int numofblockers = NumberOfBlockers(last.Down);
+            double finalscore = Math.Pow(2, sequencelength) - 2 * numofblockers;
+            return finalscore;
         }
 
-        private int SequenceInARow(BoardPosition pos)
+        public int NumberOfBlockers(BoardPosition pos)
         {
-            int count = 0;
+            if (!(IsValid(pos)))
+                return 2;
+
+            if (board[pos.Row, pos.Column] == Player.Empty)
+                return 0;
+            else
+                return 1;
+        }
+
+        private double SequenceInARowScore(BoardPosition pos)
+        {
+            int sequencelength = 0;
+            BoardPosition last = new BoardPosition(pos.Row, pos.Column);
             if (GetPlayer(pos) == Player.Empty)
             {
-                pos = pos.Right;
-                while (IsValid(pos))
+                for (BoardPosition current = pos.Right;
+                     IsValid(current) && GetPlayer(current) == currentPlayer;
+                     current = current.Right)
                 {
-                    if (GetPlayer(pos) == currentPlayer && currentPlayer == GetPlayer(pos.Right))
-                    {
-                        count++;
-                    }
-                    pos = pos.Right;
+                    sequencelength++;
+                    last = current;
                 }
             }
-            return count;
+            if (sequencelength == 0 || sequencelength == 1)
+			{
+				return -1;
+			}
+
+            int numofblockers = NumberOfBlockers(last.Right);
+            double finalscore = Math.Pow(2, sequencelength) - 2 * numofblockers;
+            return finalscore;
         }
 
-        private int SequenceInDiagonal(BoardPosition pos)
+        private double SequenceInDiagonalScore(BoardPosition pos)
         {
-            int count = 0;
+            int sequencelength = 0;
+            BoardPosition last = new BoardPosition(pos.Row, pos.Column);
             if (GetPlayer(pos) == Player.Empty)
             {
                 for (BoardPosition current = pos.Diagonal;
                      IsValid(current) && GetPlayer(current) == currentPlayer;
                      current = current.Diagonal)
-                    count++;
+                {
+                    sequencelength++;
+                    last = current;
+                }
             }
-            return count;
+			if (sequencelength == 0 || sequencelength == 1)
+			{
+				return -1;
+			}
+            int numofblockers = NumberOfBlockers(last.Diagonal);
+            double finalscore = Math.Pow(2, sequencelength) - 2 * numofblockers;
+            return finalscore;
         }
 
-        /// <summary>
-        /// Gets the maximum sequence.
-        /// </summary>
-        /// <returns>The maximum sequence.</returns>
-        /// <param name="state">State.</param>
 
-        private double GetMaximumSequence(Connect6State state)
+        public double TotalScore()
         {
-            double count1 = double.NegativeInfinity;
-            double count2 = double.NegativeInfinity;
-            double count3 = double.NegativeInfinity;
-            List<BoardPosition> allTakenPositions = GetOccupiedPositions();
-            foreach (BoardPosition pos in allTakenPositions)
+            double score = 0;
+            foreach (BoardPosition pos in GetPositions())
             {
-                if (count1 < SequenceInARow(pos))
-                {
-                    count1 = SequenceInARow(pos);
-                }
-                if (count2 < SequenceInAColumn(pos))
-                {
-                    count2 = SequenceInAColumn(pos);
-                }
-                if (count3 < SequenceInDiagonal(pos))
-                {
-                    count3 = SequenceInDiagonal(pos);
-                }
+                score += SequenceInAColumnScore(pos);
+                score += SequenceInARowScore(pos);
+                score += SequenceInDiagonalScore(pos);
             }
+			
 
-            return Math.Max(count1, Math.Max(count2, count3));
-        }
-
-        ///// <summary>
-        /// Counts the maximum sequences.
-        /// </summary>
-        /// <returns>The maximum sequences.</returns>
-        /// <param name="state">State.</param>
-
-        private int CountMaximumSequences(Connect6State state)
-        {
-            int count = 0;
-            double maxSeq = GetMaximumSequence(state);
-            List<BoardPosition> allTakenPositions = GetOccupiedPositions();
-            foreach (BoardPosition pos in allTakenPositions)
-            {
-                if (SequenceInARow(pos) == maxSeq)
-                    count++;
-                if (SequenceInAColumn(pos) == maxSeq)
-                    count++;
-                if (SequenceInDiagonal(pos) == maxSeq)
-                    count++;
-            }
-
-            return count;
+            return score;
         }
 
 
@@ -254,7 +253,7 @@ namespace Connect6
                 newboard[move.Pos2.Row, move.Pos2.Column] = currentPlayer;
             }
 
-            Connect6State newstate = new Connect6State(1-currentPlayer, newboard);
+            Connect6State newstate = new Connect6State(currentPlayer.Next(), newboard);
             return newstate;
 
         }

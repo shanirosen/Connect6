@@ -21,7 +21,7 @@ namespace Connect6
         {
             get
             {
-                return new BoardPosition(Row + 1, Column);
+                return new BoardPosition(Row, Column + 1);
             }
         }
 
@@ -29,7 +29,7 @@ namespace Connect6
         {
             get
             {
-                return new BoardPosition(Row, Column + 1);
+                return new BoardPosition(Row + 1, Column);
             }
 
         }
@@ -53,7 +53,7 @@ namespace Connect6
 
         public override bool Equals(object obj)
         {
-            if(obj is BoardPosition)
+            if (obj is BoardPosition)
             {
                 BoardPosition pos2 = obj as BoardPosition;
 

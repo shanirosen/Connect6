@@ -10,12 +10,12 @@ namespace Connect6
         static void Main(string[] args)
         {
             Player[,] board = new Player[,] {
-                { Player.Black, Player.White, Player.Black, Player.White, Player.Black, Player.Black  },
-                { Player.Black, Player.White, Player.Black, Player.White, Player.Black, Player.Black  },
-                { Player.Black, Player.Black, Player.Empty, Player.White, Player.Black, Player.Black  },
+                { Player.Empty, Player.White, Player.Black, Player.White, Player.Empty, Player.Black  },
+                { Player.Black, Player.Empty, Player.Empty, Player.White, Player.Black, Player.Black  },
+                { Player.Black, Player.Black, Player.White, Player.White, Player.Black, Player.Empty  },
                 { Player.Black, Player.White, Player.Black, Player.Black, Player.Black, Player.White  },
                 { Player.Black, Player.White, Player.Empty, Player.White, Player.White, Player.Empty  },
-                { Player.White, Player.White, Player.White, Player.White, Player.White, Player.Black  }
+                { Player.White, Player.Empty, Player.White, Player.White, Player.White, Player.Black  }
             };
 
             Player[,] b2 = new Player[,]{
@@ -24,9 +24,11 @@ namespace Connect6
                 {Player.White,Player.White,Player.Empty}
             };
 
+            BoardPosition pos = new BoardPosition(0, 0);
             Connect6State state = new Connect6State(Player.Black, board);
-
-            Connect6State state2 = new Connect6State(Player.Black, b2);
+            Connect6State state3 = new Connect6State(Player.White, board);
+            Console.WriteLine("score: " +state.TotalScore());
+			Console.WriteLine("score: " + state3.TotalScore());
 
             Console.WriteLine(state.IsFinal());
             Console.WriteLine(state.IsFull());
@@ -44,7 +46,7 @@ namespace Connect6
 
             }*/
 
-
+            Console.WriteLine(BestMoveDepthLimited(state, 3));
 
             List<Connect6Move> possiblemoves = state.AllPossibleMoves();
 
@@ -112,25 +114,17 @@ namespace Connect6
 
         private static double Evaluation(Connect6State state)
         {
-            return 0;
-            //check how many sequences with maximum players the enemy has
+            Connect6State secondstate = new Connect6State(state.currentPlayer.Next(), state.board);
+
+            if(state.TotalScore().Equals(secondstate.TotalScore()))
+            {
+                return 0;
+            }
+
+            return state.TotalScore() > secondstate.TotalScore() ? double.PositiveInfinity : double.NegativeInfinity;
 
         }
-
-        /*private static int Count(Connect6State state, Player currentPlayer)
-        {
-            int count = 0;
-            List<BoardPosition> occupiedPos = state.GetOccupiedPositions();
-            foreach (BoardPosition pos in occupiedPos)
-            {
-                if (state.GetPlayer(pos) == currentPlayer)
-                {
-                    count++;
-                }
-
-            }
-            return count;
-        }*/
+            
     }
 
 

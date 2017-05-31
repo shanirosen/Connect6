@@ -134,7 +134,7 @@ namespace Connect6
                 }
 
             }
-            if (sequencelength == 0 || sequencelength == 1)
+            if (sequencelength == 0)
             {
                 return -1;
             }
@@ -168,7 +168,7 @@ namespace Connect6
                     last = current;
                 }
             }
-            if (sequencelength == 0 || sequencelength == 1)
+            if (sequencelength == 0)
 			{
 				return -1;
 			}
@@ -192,7 +192,7 @@ namespace Connect6
                     last = current;
                 }
             }
-			if (sequencelength == 0 || sequencelength == 1)
+			if (sequencelength == 0)
 			{
 				return -1;
 			}

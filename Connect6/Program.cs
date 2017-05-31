@@ -18,53 +18,6 @@ namespace Connect6
                 { Player.White, Player.Empty, Player.White, Player.White, Player.White, Player.Black  }
             };
 
-            Player[,] b2 = new Player[,]{
-                {Player.Black,Player.Empty,Player.White},
-                {Player.White,Player.Black,Player.Empty},
-                {Player.White,Player.White,Player.Empty}
-            };
-
-            BoardPosition pos = new BoardPosition(0, 0);
-            Connect6State state = new Connect6State(Player.Black, board);
-            Connect6State state3 = new Connect6State(Player.White, board);
-            Console.WriteLine("score: " +state.TotalScore());
-			Console.WriteLine("score: " + state3.TotalScore());
-
-            Console.WriteLine(state.IsFinal());
-            Console.WriteLine(state.IsFull());
-            /*
-            List<BoardPosition> bp = state.GetPositions();
-            foreach(BoardPosition pos in bp)
-            {
-                Console.WriteLine("pos= " + pos);
-                Console.WriteLine("check is six");
-                Console.WriteLine(state.IsSix());
-                Console.WriteLine("check smal functions");
-                Console.WriteLine("(row) " + state.SixInARow(pos));
-                Console.WriteLine("(col) " + state.SixInAColumn(pos));
-                Console.WriteLine("(diag) " + state.SixInDiagonal(pos));
-
-            }*/
-
-            Console.WriteLine(BestMoveDepthLimited(state, 3));
-
-            List<Connect6Move> possiblemoves = state.AllPossibleMoves();
-
-            foreach(Connect6Move move in possiblemoves)
-            {
-                Console.WriteLine(move);
-            }
-
-            Console.WriteLine(BestMove(state));
-
-            //BoardPosition pos1 = new BoardPosition(1, 0);
-            //BoardPosition pos2 = new BoardPosition(1, 1);
-            //Connect6Move m1 = new Connect6Move(pos1, pos2);
-            //List<Connect6Move> ll = new List<Connect6Move>();
-            //ll.Add((m1));
-            //Connect6Move m2 = new Connect6Move(pos2, pos1);
-            //Console.WriteLine(IsMoveInList(ll,OppositeMove(m2)));
-
 
         }
 

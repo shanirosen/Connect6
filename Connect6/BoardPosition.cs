@@ -21,6 +21,7 @@ namespace Connect6
         {
             get
             {
+                //Before: Row+1,Col
                 return new BoardPosition(Row, Column + 1);
             }
         }
@@ -29,6 +30,7 @@ namespace Connect6
         {
             get
             {
+                //Before: Row,Col+1
                 return new BoardPosition(Row + 1, Column);
             }
 

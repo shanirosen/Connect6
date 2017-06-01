@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +30,7 @@ namespace Connect6
 
         public bool IsTied()
         {
-            return IsFull() && !IsSix();
+            return IsFull() && !IsSixGeneral();
 
         }
 
@@ -54,11 +54,11 @@ namespace Connect6
 
         public bool IsFinal()
         {
-            return IsFull() || IsSix();
+            return IsFull() || IsSixGeneral();
 
         }
 
-        public bool IsSix()
+        public bool IsSixCurrentPlayer()
         {
             foreach (BoardPosition pos in GetOccupiedPositions())
             {
@@ -71,6 +71,20 @@ namespace Connect6
             }
             return false;
         }
+
+		public bool IsSixGeneral()
+		{
+			foreach (BoardPosition pos in GetOccupiedPositions())
+			{
+				if (SixInARowGeneral(pos))
+					return true;
+                if (SixInAColumnGeneral(pos))
+					return true;
+                if (SixInDiagonalGeneral(pos))
+					return true;
+			}
+			return false;
+		}
 
         public BoardPosition IsSixPos()
 		{
@@ -91,6 +105,8 @@ namespace Connect6
         {
             for (int i = 0; i < 5; i++)
             {
+				if (currentPlayer != GetPlayer(pos))
+					return false;
                 if (currentPlayer != GetPlayer(pos.Diagonal))
                 {
                     return false;
@@ -105,6 +121,8 @@ namespace Connect6
         {
             for (int i = 0; i < 5; i++)
             {
+				if (currentPlayer != GetPlayer(pos))
+					return false;
                 if (currentPlayer != GetPlayer(pos.Down))
                 {
                     return false;
@@ -118,7 +136,9 @@ namespace Connect6
         {
             for (int i = 0; i < 5; i++)
             {
-                if (GetPlayer((pos)) != GetPlayer(pos.Right))
+                if (currentPlayer != GetPlayer(pos))
+                    return false;
+                if (currentPlayer != GetPlayer(pos.Right))
                 {
                     return false;
                 }
@@ -126,13 +146,53 @@ namespace Connect6
             }
             return true;
         }
+		public bool SixInDiagonalGeneral(BoardPosition pos)
+		{
+			for (int i = 0; i < 5; i++)
+			{
+                if (GetPlayer(pos) != GetPlayer(pos.Diagonal))
+				{
+					return false;
+				}
+				pos = pos.Diagonal;
+			}
+			return true;
+		}
 
-        //NEED TO MAKE SURE THE SEQUECE IS OPEN!!!!
-        //2^l-2*k
-        //l - length of sequence
-        //k- number of players on endes
 
-        public double SequenceInAColumnScore(BoardPosition pos)
+		public bool SixInAColumnGeneral(BoardPosition pos)
+		{
+			for (int i = 0; i < 5; i++)
+			{
+                if (GetPlayer(pos) != GetPlayer(pos.Down))
+				{
+					return false;
+				}
+				pos = pos.Down;
+			}
+			return true;
+		}
+
+		public bool SixInARowGeneral(BoardPosition pos)
+		{
+			for (int i = 0; i < 5; i++)
+			{
+                if (GetPlayer(pos) != GetPlayer(pos.Right))
+				{
+					return false;
+				}
+				pos = pos.Right;
+			}
+			return true;
+		}
+
+
+		//NEED TO MAKE SURE THE SEQUECE IS OPEN!!!!
+		//2^l-2*k
+		//l - length of sequence
+		//k- number of players on endes
+
+		public double SequenceInAColumnScore(BoardPosition pos)
         {
             int sequencelength = 0;
             BoardPosition last = new BoardPosition(pos.Row, pos.Column);
@@ -280,7 +340,7 @@ namespace Connect6
             for (int i = 0; i < newboard.GetLength(0); i++)
             {
                 for (int j = 0; j < newboard.GetLength(1); j++)
-                {IsSix();
+                {IsSixCurrentPlayer();
                     newboard[i, j] = board[i, j];
                 }
             }
@@ -291,6 +351,10 @@ namespace Connect6
         {
             List<BoardPosition> AllPositions = GetNonOccupiedPositions();
             List<Connect6Move> AllMoves = new List<Connect6Move>();
+            if(AllPositions.Count==1)
+            {
+                AllMoves.Add(new Connect6Move(AllPositions[0],AllPositions[0]));
+            }
             foreach (BoardPosition pos1 in AllPositions)
             {
                 foreach (BoardPosition pos2 in AllPositions)

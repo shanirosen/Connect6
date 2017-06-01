@@ -139,7 +139,7 @@ namespace Connect6
                 return -1;
             }
             int numofblockers = NumberOfBlockers(last.Down);
-            double finalscore = Math.Pow(2, sequencelength) - 2 * numofblockers;
+            double finalscore = Math.Pow(2, sequencelength) * (2 - numofblockers);
             return finalscore;
         }
 
@@ -169,13 +169,13 @@ namespace Connect6
                 }
             }
             if (sequencelength == 0)
-			{
-				return -1;
-			}
+            {
+                return -1;
+            }
 
             int numofblockers = NumberOfBlockers(last.Right);
-            double finalscore = Math.Pow(2, sequencelength) - 2 * numofblockers;
-            return finalscore;
+			double finalscore = Math.Pow(2, sequencelength) * (2 - numofblockers);
+			return finalscore;
         }
 
         private double SequenceInDiagonalScore(BoardPosition pos)
@@ -192,13 +192,14 @@ namespace Connect6
                     last = current;
                 }
             }
-			if (sequencelength == 0)
-			{
-				return -1;
-			}
+            if (sequencelength == 0)
+            {
+                return -1;
+            }
             int numofblockers = NumberOfBlockers(last.Diagonal);
-            double finalscore = Math.Pow(2, sequencelength) - 2 * numofblockers;
-            return finalscore;
+			double finalscore = Math.Pow(2, sequencelength) * (2 - numofblockers);
+
+			return finalscore;
         }
 
 
@@ -211,7 +212,7 @@ namespace Connect6
                 score += SequenceInARowScore(pos);
                 score += SequenceInDiagonalScore(pos);
             }
-			
+
 
             return score;
         }

@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +15,17 @@ namespace Connect6
                 { Player.Black, Player.Black, Player.White, Player.White, Player.Black, Player.Empty  },
                 { Player.Black, Player.White, Player.Black, Player.Black, Player.Black, Player.White  },
                 { Player.Black, Player.White, Player.Empty, Player.White, Player.White, Player.Empty  },
-                { Player.White, Player.Empty, Player.White, Player.White, Player.White, Player.Black  }
+                { Player.Empty, Player.Black, Player.White, Player.White, Player.White, Player.Black  }
             };
 
-
+            Connect6State state = new Connect6State(Player.Black, board);
+            Tuple<Connect6Move, double> f = GetBestMove(state);
+            Console.WriteLine(f.Item1);
+            Console.WriteLine(f.Item2);
+            Console.WriteLine(BestMove(state));
         }
+
+
 
         public static double BestMove(Connect6State state)
         {
@@ -39,6 +45,36 @@ namespace Connect6
                 }
             }
             return bestscore;
+        }
+
+        public static Tuple<Connect6Move, double> GetBestMove(Connect6State state)
+        {
+            if (state.IsFinal())
+            {
+                if (state.IsTied())
+                {
+                    return new Tuple<Connect6Move, double>(null, 0);
+                }
+                else
+                {
+                    return new Tuple<Connect6Move, double>(null, double.NegativeInfinity);
+                }
+
+            }
+
+            double bestscore = double.NegativeInfinity;
+            Connect6Move bestmove = new Connect6Move(null, null);
+
+            foreach (Connect6Move move in state.AllPossibleMoves())
+            {
+                double score = -BestMove(state.Apply(move));
+                if (score > bestscore)
+                {
+                    bestscore = score;
+                    bestmove = move;
+                }
+            }
+            return new Tuple<Connect6Move, double>(bestmove, bestscore);
         }
 
         public static double BestMoveDepthLimited(Connect6State state, int depth)
@@ -69,7 +105,7 @@ namespace Connect6
         {
             Connect6State secondstate = new Connect6State(state.currentPlayer.Next(), state.board);
 
-            if(state.TotalScore().Equals(secondstate.TotalScore()))
+            if (state.TotalScore().Equals(secondstate.TotalScore()))
             {
                 return 0;
             }
@@ -77,7 +113,7 @@ namespace Connect6
             return state.TotalScore() > secondstate.TotalScore() ? double.PositiveInfinity : double.NegativeInfinity;
 
         }
-            
+
     }
 
 

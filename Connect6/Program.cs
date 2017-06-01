@@ -10,26 +10,29 @@ namespace Connect6
         static void Main(string[] args)
         {
             Player[,] board = new Player[,] {
-                { Player.Empty, Player.White, Player.Black, Player.White, Player.Empty, Player.Black  },
-                { Player.Black, Player.Empty, Player.Empty, Player.White, Player.Black, Player.Black  },
-                { Player.Black, Player.Black, Player.White, Player.White, Player.Black, Player.Empty  },
-                { Player.Black, Player.White, Player.Black, Player.Black, Player.Black, Player.White  },
-                { Player.Black, Player.White, Player.Empty, Player.White, Player.White, Player.Empty  },
-                { Player.Empty, Player.Black, Player.White, Player.White, Player.White, Player.Black  }
+                { Player.Empty, Player.White, Player.Black, Player.White, Player.White, Player.Black  },
+                { Player.White, Player.Empty, Player.White, Player.White, Player.Black, Player.Black  },
+                { Player.White, Player.Black, Player.Black, Player.Black, Player.Black, Player.Black  },
+                { Player.White, Player.White, Player.Black, Player.Black, Player.Black, Player.White  },
+                { Player.White, Player.White, Player.White, Player.White, Player.White, Player.White  },
+                { Player.Black, Player.Black, Player.White, Player.White, Player.White, Player.Black  }
             };
 
-            Connect6State state = new Connect6State(Player.Black, board);
+            Connect6State state = new Connect6State(Player.White, board);
             Tuple<Connect6Move, double> f = GetBestMove(state);
             Console.WriteLine(f.Item1);
             Console.WriteLine(f.Item2);
             Console.WriteLine(BestMove(state));
 
-            BoardPosition pos = new BoardPosition(0, 0);
-            Console.WriteLine(pos.Right + " " + state.GetPlayer(pos.Right));
+            BoardPosition pos = new BoardPosition(2, 0);
+            Console.WriteLine(state.GetPlayer(pos));
+            Console.WriteLine("right: " + pos.Right + " " + state.GetPlayer(pos.Right));
 
-            Console.WriteLine(pos.Down + " " + state.GetPlayer(pos.Down));
-            Console.WriteLine(pos.Diagonal + " " + state.GetPlayer(pos.Diagonal));
-           
+            Console.WriteLine("down: " +pos.Down + " " + state.GetPlayer(pos.Down));
+            Console.WriteLine("diag: "+pos.Diagonal + " " + state.GetPlayer(pos.Diagonal));
+            Console.WriteLine(state.SixInARow(pos));
+
+
         }
 
 
@@ -38,7 +41,10 @@ namespace Connect6
         {
             if (state.IsFinal())
             {
-                return state.IsTied() ? 0 : double.NegativeInfinity;
+                if (state.IsSix())
+                    return double.PositiveInfinity;
+                else
+                    return state.IsTied() ? 0 : double.NegativeInfinity;
             }
 
             double bestscore = double.NegativeInfinity;
@@ -58,15 +64,13 @@ namespace Connect6
         {
             if (state.IsFinal())
             {
+				if (state.IsSix())
+					return new Tuple<Connect6Move, double>(null, double.PositiveInfinity);
                 if (state.IsTied())
-                {
                     return new Tuple<Connect6Move, double>(null, 0);
-                }
                 else
-                {
                     return new Tuple<Connect6Move, double>(null, double.NegativeInfinity);
-                }
-
+                
             }
 
             double bestscore = double.NegativeInfinity;

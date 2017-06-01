@@ -72,6 +72,19 @@ namespace Connect6
             return false;
         }
 
+        public BoardPosition IsSixPos()
+		{
+			foreach (BoardPosition pos in GetOccupiedPositions())
+			{
+				if (SixInARow(pos))
+                    return pos;
+				if (SixInAColumn(pos))
+                    return pos;
+				if (SixInDiagonal(pos))
+					return pos;
+			}
+            return null;
+		}
 
 
         public bool SixInDiagonal(BoardPosition pos)
@@ -267,7 +280,7 @@ namespace Connect6
             for (int i = 0; i < newboard.GetLength(0); i++)
             {
                 for (int j = 0; j < newboard.GetLength(1); j++)
-                {
+                {IsSix();
                     newboard[i, j] = board[i, j];
                 }
             }

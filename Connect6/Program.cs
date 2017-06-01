@@ -23,6 +23,13 @@ namespace Connect6
             Console.WriteLine(f.Item1);
             Console.WriteLine(f.Item2);
             Console.WriteLine(BestMove(state));
+
+            BoardPosition pos = new BoardPosition(0, 0);
+            Console.WriteLine(pos.Right + " " + state.GetPlayer(pos.Right));
+
+            Console.WriteLine(pos.Down + " " + state.GetPlayer(pos.Down));
+            Console.WriteLine(pos.Diagonal + " " + state.GetPlayer(pos.Diagonal));
+           
         }
 
 

@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +31,7 @@ namespace Connect6
             Console.WriteLine("down: " +pos.Down + " " + state.GetPlayer(pos.Down));
             Console.WriteLine("diag: "+pos.Diagonal + " " + state.GetPlayer(pos.Diagonal));
             Console.WriteLine(state.SixInARow(pos));
+            Console.WriteLine(state.AllPossibleMoves().Count);
 
 
         }

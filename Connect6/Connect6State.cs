@@ -30,7 +30,7 @@ namespace Connect6
 
         public bool IsTied()
         {
-            return IsFull() && !IsSixGeneral();
+            return IsFull() && !IsSix(currentPlayer) && !(IsSix(currentPlayer.Next()));
 
         }
 
@@ -54,39 +54,25 @@ namespace Connect6
 
         public bool IsFinal()
         {
-            return IsFull() || IsSixGeneral();
+            return IsFull() || IsSix(currentPlayer) || IsSix(currentPlayer.Next());
 
         }
 
-        public bool IsSixCurrentPlayer()
+        public bool IsSix(Player player)
         {
             foreach (BoardPosition pos in GetOccupiedPositions())
             {
-                if (SixInARow(pos))
+                if (SixInARow(pos,player))
                     return true;
-                if (SixInAColumn(pos))
+                if (SixInAColumn(pos,player))
                     return true;
-                if (SixInDiagonal(pos))
+                if (SixInDiagonal(pos,player))
                     return true;
             }
             return false;
         }
 
-		public bool IsSixGeneral()
-		{
-			foreach (BoardPosition pos in GetOccupiedPositions())
-			{
-				if (SixInARowGeneral(pos))
-					return true;
-                if (SixInAColumnGeneral(pos))
-					return true;
-                if (SixInDiagonalGeneral(pos))
-					return true;
-			}
-			return false;
-		}
-
-        public BoardPosition IsSixPos()
+      /*  public BoardPosition IsSixPos()
 		{
 			foreach (BoardPosition pos in GetOccupiedPositions())
 			{
@@ -98,16 +84,16 @@ namespace Connect6
 					return pos;
 			}
             return null;
-		}
+		}*/
 
 
-        public bool SixInDiagonal(BoardPosition pos)
+        public bool SixInDiagonal(BoardPosition pos, Player player)
         {
             for (int i = 0; i < 5; i++)
             {
-				if (currentPlayer != GetPlayer(pos))
+                if (player != GetPlayer(pos))
 					return false;
-                if (currentPlayer != GetPlayer(pos.Diagonal))
+                if (player != GetPlayer(pos.Diagonal))
                 {
                     return false;
                 }
@@ -117,13 +103,13 @@ namespace Connect6
         }
 
 
-        public bool SixInAColumn(BoardPosition pos)
+        public bool SixInAColumn(BoardPosition pos, Player player)
         {
             for (int i = 0; i < 5; i++)
             {
-				if (currentPlayer != GetPlayer(pos))
+                if (player != GetPlayer(pos))
 					return false;
-                if (currentPlayer != GetPlayer(pos.Down))
+                if (player != GetPlayer(pos.Down))
                 {
                     return false;
                 }
@@ -132,13 +118,13 @@ namespace Connect6
             return true;
         }
 
-        public bool SixInARow(BoardPosition pos)
+        public bool SixInARow(BoardPosition pos, Player player)
         {
             for (int i = 0; i < 5; i++)
             {
-                if (currentPlayer != GetPlayer(pos))
+                if (player != GetPlayer(pos))
                     return false;
-                if (currentPlayer != GetPlayer(pos.Right))
+                if (player != GetPlayer(pos.Right))
                 {
                     return false;
                 }
@@ -146,55 +132,15 @@ namespace Connect6
             }
             return true;
         }
-		public bool SixInDiagonalGeneral(BoardPosition pos)
-		{
-			for (int i = 0; i < 5; i++)
-			{
-                if (GetPlayer(pos) != GetPlayer(pos.Diagonal))
-				{
-					return false;
-				}
-				pos = pos.Diagonal;
-			}
-			return true;
-		}
-
-
-		public bool SixInAColumnGeneral(BoardPosition pos)
-		{
-			for (int i = 0; i < 5; i++)
-			{
-                if (GetPlayer(pos) != GetPlayer(pos.Down))
-				{
-					return false;
-				}
-				pos = pos.Down;
-			}
-			return true;
-		}
-
-		public bool SixInARowGeneral(BoardPosition pos)
-		{
-			for (int i = 0; i < 5; i++)
-			{
-                if (GetPlayer(pos) != GetPlayer(pos.Right))
-				{
-					return false;
-				}
-				pos = pos.Right;
-			}
-			return true;
-		}
 
 
 		//NEED TO MAKE SURE THE SEQUECE IS OPEN!!!!
-		//2^l-2*k
 		//l - length of sequence
 		//k- number of players on endes
 
 		public double SequenceInAColumnScore(BoardPosition pos)
         {
-            int sequencelength = 0;
+            double sequencelength = 0;
             BoardPosition last = new BoardPosition(pos.Row, pos.Column);
             if (GetPlayer(pos) == Player.Empty)
             {
@@ -209,27 +155,25 @@ namespace Connect6
             }
             if (sequencelength == 0)
             {
-                return -1;
+                return 0;
             }
-            int numofblockers = NumberOfBlockers(last.Down);
+            double numofblockers = NumberOfBlockers(last.Down);
             double finalscore = Math.Pow(2, sequencelength) * (2 - numofblockers);
             return finalscore;
         }
 
-        public int NumberOfBlockers(BoardPosition pos)
+        public double NumberOfBlockers(BoardPosition pos)
         {
             if (!(IsValid(pos)))
-                return 2;
-
+                return 1;
             if (board[pos.Row, pos.Column] == Player.Empty)
                 return 0;
-            else
-                return 1;
+            return 1;
         }
 
         private double SequenceInARowScore(BoardPosition pos)
         {
-            int sequencelength = 0;
+            double sequencelength = 0;
             BoardPosition last = new BoardPosition(pos.Row, pos.Column);
             if (GetPlayer(pos) == Player.Empty)
             {
@@ -243,17 +187,17 @@ namespace Connect6
             }
             if (sequencelength == 0)
             {
-                return -1;
+                return 0;
             }
 
-            int numofblockers = NumberOfBlockers(last.Right);
+            double numofblockers = NumberOfBlockers(last.Right);
 			double finalscore = Math.Pow(2, sequencelength) * (2 - numofblockers);
 			return finalscore;
         }
 
         private double SequenceInDiagonalScore(BoardPosition pos)
         {
-            int sequencelength = 0;
+            double sequencelength = 0;
             BoardPosition last = new BoardPosition(pos.Row, pos.Column);
             if (GetPlayer(pos) == Player.Empty)
             {
@@ -267,9 +211,9 @@ namespace Connect6
             }
             if (sequencelength == 0)
             {
-                return -1;
+                return 0;
             }
-            int numofblockers = NumberOfBlockers(last.Diagonal);
+            double numofblockers = NumberOfBlockers(last.Diagonal);
 			double finalscore = Math.Pow(2, sequencelength) * (2 - numofblockers);
 
 			return finalscore;
@@ -340,7 +284,7 @@ namespace Connect6
             for (int i = 0; i < newboard.GetLength(0); i++)
             {
                 for (int j = 0; j < newboard.GetLength(1); j++)
-                {IsSixCurrentPlayer();
+                {
                     newboard[i, j] = board[i, j];
                 }
             }
@@ -370,6 +314,11 @@ namespace Connect6
             }
 
             return AllMoves;
+        }
+
+        public int PossibleMovesCount()
+        {
+            return AllPossibleMoves().Count;
         }
 
     }

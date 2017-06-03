@@ -3,7 +3,7 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
     <Files>
       <File FileName="BoardPosition.cs" Line="56" Column="44" />
-      <File FileName="Connect6Move.cs" Line="36" Column="55" />
+      <File FileName="Connect6Move.cs" Line="36" Column="1" />
       <File FileName="Connect6State.cs" Line="70" Column="9" />
       <File FileName="Program.cs" Line="77" Column="14" />
     </Files>

@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Connect6
 {
-    class Connect6State
+    class 
+    Connect6State
     {
         public readonly Player[,] board;
         public readonly Player currentPlayer;
@@ -316,12 +317,13 @@ namespace Connect6
             return AllMoves;
         }
 
-        public int PossibleMovesCount()
+        public int CountPossibleMoves()
         {
             return AllPossibleMoves().Count;
         }
 
     }
+
 
     public enum Player
     {

@@ -11,45 +11,71 @@ namespace Connect6
 
         static void Main(string[] args)
         {
-            Player[,] board = new Player[,] {
+            /*Player[,] board = new Player[,] {
                 { Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },
                 { Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },
                 { Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },
                 { Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },
                 { Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },
                 { Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  }
-            };
+            };*/
 
             PlayGame();
 
 
-            //Connect6State state = new Connect6State(Player.White, board);
-            //Connect6Move m = GetBestMoveDepthLimited(state, 2).Item1;
-            //Console.WriteLine(m);
-            //state = state.Apply(m);
-
-
-            //N=Number of empty cells; Number of possible moves = (N^2-N)2
-
-
-            //Console.WriteLine(BestMove(state))
-            //Console.WriteLine(GetBestMove(state).Item1 + " " + GetBestMove(state).Item2);
-            //Console.WriteLine(GetBestMoveDepthLimited(state,1));
-            //Console.WriteLine(state.TotalScore());
-            //Console.WriteLine(state.PossibleMovesCount());
-            //Console.WriteLine(GetBestMoveDepthLimited(state,4));
-            /*
-            Console.WriteLine(state.IsTied());
-            Console.WriteLine(state.IsSix());
-            Console.WriteLine(state.IsSixPos());
-            Console.WriteLine("////");
-            Console.WriteLine(state.SixInARow(pos));
-            Console.WriteLine("//////");*/
-
-
         }
+		public static void PlayGameComputer()
+		{
+			Player[,] board = new Player[,] {
+				{ Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },
+				{ Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },
+				{ Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },
+				{ Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },
+				{ Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },
+				{ Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  }
+			};
 
-        public static void PlayGame()
+			Connect6State state = new Connect6State(Player.White, board);
+
+			while (!state.IsFinal())
+			{
+				Console.WriteLine("Current Player: " + state.currentPlayer);
+                Console.WriteLine();
+                PrintBoard(board);
+				if (state.currentPlayer == Player.White)
+				{
+					Console.WriteLine("Calculating Move...");					
+                    Console.WriteLine();
+                    Connect6Move move = GetBestMoveDepthLimited(state, 2).Item1;
+					state = state.Apply(move);
+				}
+				else
+				{
+					Console.WriteLine("Calculating Move...");
+					Console.WriteLine();
+                    Connect6Move move = GetBestMoveDepthLimited(state, 2).Item1;
+					state = state.Apply(move);
+				}
+
+				board = state.board;
+
+			}
+
+			PrintBoard(board);
+			if (state.IsTied())
+			{
+				Console.WriteLine("Tied!");
+			}
+			else
+			{
+				Console.WriteLine("{0} Won!", state.currentPlayer.Next());
+			}
+
+
+		}
+
+
+		public static void PlayGame()
         {
 			Player[,] board = new Player[,] {
 				{ Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty, Player.Empty  },

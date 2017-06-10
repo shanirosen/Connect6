@@ -4,8 +4,8 @@
     <Files>
       <File FileName="BoardPosition.cs" Line="73" Column="1" />
       <File FileName="Connect6Move.cs" Line="36" Column="1" />
-      <File FileName="Connect6State.cs" Line="322" Column="10" />
-      <File FileName="Program.cs" Line="179" Column="14" />
+      <File FileName="Connect6State.cs" Line="9" Column="5" />
+      <File FileName="Program.cs" Line="287" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
